@@ -1,5 +1,5 @@
-import { getInput, getMultilineInput, InputOptions } from "@actions/core";
-import { Runtime, Tag } from "@aws-sdk/client-apprunner";
+import { getBooleanInput, getInput, getMultilineInput, InputOptions } from "@actions/core";
+import { EgressType, Runtime, Tag } from "@aws-sdk/client-apprunner";
 
 // supported GitHub action modes
 enum Actions {
@@ -38,6 +38,9 @@ export interface ICreateOrUpdateActionParams {
     tags: Tag[]
     autoScalingConfigArn?: string;
     instanceRoleArn?: string;
+    egressType: EgressType;
+    vpcConnectorArn?: string;
+    publicIngress: boolean;
 }
 
 export type IActionParams = ICreateOrUpdateActionParams;
@@ -139,6 +142,10 @@ function getCreateOrUpdateConfig(): ICreateOrUpdateActionParams {
 
     const instanceRoleArn = getOptionalInputStr('instance-role-arn', { trimWhitespace: true });
 
+    const egressType = getInputStr('egress-type', "DEFAULT") as EgressType
+    const vpcConnectorArn = getOptionalInputStr('vpc-connector-arn')
+    const publicIngress = getInputBool('public-ingress', true)
+
     return {
         action,
         serviceName,
@@ -154,6 +161,9 @@ function getCreateOrUpdateConfig(): ICreateOrUpdateActionParams {
         tags: getTags(tags),
         autoScalingConfigArn: autoScalingConfigArn,
         instanceRoleArn: instanceRoleArn,
+        egressType,
+        vpcConnectorArn,
+        publicIngress
     };
 }
 

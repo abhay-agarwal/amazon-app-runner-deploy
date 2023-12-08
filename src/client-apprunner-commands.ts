@@ -10,6 +10,15 @@ export function getCreateCommand(config: ICreateOrUpdateActionParams): CreateSer
             InstanceRoleArn: config.instanceRoleArn,
         },
         AutoScalingConfigurationArn: config.autoScalingConfigArn,
+        NetworkConfiguration: {
+            EgressConfiguration: { // EgressConfiguration
+                EgressType: config.egressType,
+                VpcConnectorArn: config.vpcConnectorArn
+            },
+            IngressConfiguration: { // IngressConfiguration
+                IsPubliclyAccessible: config.publicIngress
+            },
+        },
         SourceConfiguration: (config.sourceConfig.sourceType == 'image')
             ? getImageSourceConfiguration(config.port, config.sourceConfig, config.environment, config.environmentSecret)
             : getCodeSourceConfiguration(config.port, config.sourceConfig, config.environment, config.environmentSecret),
@@ -26,6 +35,15 @@ export function getUpdateCommand(serviceArn: string, config: ICreateOrUpdateActi
             InstanceRoleArn: config.instanceRoleArn,
         },
         AutoScalingConfigurationArn: config.autoScalingConfigArn,
+        NetworkConfiguration: {
+            EgressConfiguration: { // EgressConfiguration
+                EgressType: config.egressType,
+                VpcConnectorArn: config.vpcConnectorArn
+            },
+            IngressConfiguration: { // IngressConfiguration
+                IsPubliclyAccessible: config.publicIngress
+            },
+        },
         SourceConfiguration: (config.sourceConfig.sourceType == 'image')
             ? getImageSourceConfiguration(config.port, config.sourceConfig, config.environment, config.environmentSecret)
             : getCodeSourceConfiguration(config.port, config.sourceConfig, config.environment, config.environmentSecret),
