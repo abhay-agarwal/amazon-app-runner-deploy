@@ -1,4 +1,4 @@
-import { getBooleanInput, getInput, getMultilineInput, InputOptions } from "@actions/core";
+import { getInput, getMultilineInput, InputOptions } from "@actions/core";
 import { EgressType, Runtime, Tag } from "@aws-sdk/client-apprunner";
 
 // supported GitHub action modes
